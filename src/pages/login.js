@@ -1,9 +1,9 @@
 import FormField from "../components/formField";
 import {useState} from 'react';
-import React from 'react';
 import { useHistory } from "react-router-dom";
-import sample from '../Sci Fi - 60718.mp4';
+import sample from '../Images/Sci Fi - 60718.mp4';
 import '../cssFiles/style.css';
+import { Navbar, Nav } from 'react-bootstrap';
 
 const Login = (props) =>  {
     const history = useHistory();
@@ -81,6 +81,16 @@ const Login = (props) =>  {
         <video className="videoTag" autoPlay loop muted>
                  <source src={sample}/>
         </video>
+        <Navbar className="navBar" variant="dark">
+            <Navbar.Brand href="#">Login</Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="mr-auto">
+                <Nav.Link href="http://localhost:3000/">Register</Nav.Link>
+                <Nav.Link href="http://localhost:3000/login">Log In</Nav.Link>
+            </Nav>
+            </Navbar.Collapse>
+        </Navbar> 
         
         <div className="container containerLogin">
             <form onSubmit={loginSys}>

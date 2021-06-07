@@ -3,7 +3,8 @@ import {useEffect, useState} from 'react';
 import '../cssFiles/style.css';
 import FormField from "../components/formField";
 import DatePicker from 'react-date-picker';
-import sample from '../yt1s.com - free video cyber security background_1080p.mp4';
+import sample from '../Images/yt1s.com - free video cyber security background_1080p.mp4';
+import { Navbar, Nav } from 'react-bootstrap';
 
 const Register = (props) => {
 const history = useHistory();
@@ -123,7 +124,16 @@ const [phoneNumber, setphoneNumber] = useState('')
             */ 
            //#endregion 
         if (checkForm()) {
-            let user = { userName, password, profileImg, surname, lastName, birthdate, email, city, street, phoneNumber } // יצירת אובייקט עם פרטי המשתמש
+
+            let id = Math.floor(Math.random() * 10000) + 1; 
+
+            for (let i=0; i < users.length; i++)
+            {
+                if (users[i].id === id)
+                id = Math.floor(Math.random() * 10000) + 1;
+            }
+
+            let user = { userName, password, profileImg, surname, lastName, birthdate, email, city, street, phoneNumber, id } // יצירת אובייקט עם פרטי המשתמש
             let exists = false; //בוליאן לסימון האם המייל קיים כבר במערכת
             
             for (let i=0; i < users.length; i++)
@@ -158,6 +168,17 @@ const [phoneNumber, setphoneNumber] = useState('')
             <video className="videoTag" autoPlay loop muted>
                  <source src={sample}/>
             </video>
+            <Navbar className="navBar" variant="dark">
+                <Navbar.Brand href="#">Register</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mr-auto">
+                    <Nav.Link href="http://localhost:3000/">Register</Nav.Link>
+                    <Nav.Link href="http://localhost:3000/login">Log In</Nav.Link>
+                </Nav>
+                </Navbar.Collapse>
+            </Navbar> 
+
             <div className="container containerReg">
             <form onSubmit={signup}>
                 <div className="regData">

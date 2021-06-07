@@ -77,11 +77,11 @@ button, input {
     margin-right: 10px;
     border-radius: 50px;
     margin-bottom: 10px;
-    background-color: #3ec4dae8;
+    background-color: rgb(214, 182, 100);
 }
 
 .buttonsLogin button:hover{
-    background-color: #96e5f1e8;
+    background-color: rgb(233, 209, 149);
 }
 
 .videoTag{
@@ -153,4 +153,99 @@ width: 360px;
 
 .containerProfileDate .secondBlock .field{
     padding-bottom: 6.5px;
+}
+
+tr{
+display: flex;
+}
+
+.dataBlock{ 
+    margin-left: 20px;
+}
+
+.delButton{
+display: flex;
+flex-direction: column;
+}
+
+.delButton button{
+    height: 25px;
+    margin-bottom: 35px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #05a5a5;
+    color: rgb(247, 245, 241);
+}
+.delButton button:hover{
+    background-color: #1d8d8d;
+}
+
+.updateButton{
+    display: flex;
+    flex-direction: column;
+}
+
+.updateButton button{
+    height: 25px;
+    margin-bottom: 35px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #05a5a5;
+    color: rgb(240, 238, 234);
+}
+
+.updateButton button:hover{
+    background-color: #1d8d8d;
+}
+
+.containerAdmin{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    color: rgb(241, 234, 221);
+}
+.adminTitle{
+    text-align: center;
+    padding-top: 80px;
+    margin-bottom: 80px;
+    position: relative;
+    color: rgb(240, 234, 223);
+}
+
+.backgroundAdmin{
+    height: 100vh;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+thead{
+    background-color: rgba(0, 0, 0, 0.541);
+    padding: 50px;
+}
+
+th span{
+    display: flex;
+    margin-bottom: 35px;
+}
+
+.profileImgAdmin{
+display: flex;
+flex-direction: column;
+}
+
+.profileImgAdmin img{
+    margin-bottom: 10px;
+}
+.navBar {
+    background-color: #0000009e;
 }

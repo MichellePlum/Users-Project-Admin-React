@@ -3,16 +3,17 @@ import {useEffect, useState} from 'react';
 import '../cssFiles/style.css';
 import FormField from "../components/formField";
 import DatePicker from 'react-date-picker';
-import sample from '../Sci Fi - 60718.mp4';
+import sample from '../Images/Sci Fi - 60718.mp4';
+import { Navbar, Nav } from 'react-bootstrap';
+
 
 const ProfileData = (props) => {
     const history = useHistory();
-    let userProfile = sessionStorage.getItem("activeUser");
-    let userProfileData = JSON.parse(userProfile);
-    let usersArr = localStorage.getItem("users");
-    let usersArrData = JSON.parse(usersArr);
+    let userProfileData = JSON.parse(sessionStorage.getItem("activeUser"));
+    let users = JSON.parse(localStorage.getItem("users") || "[]");
     let index;
-
+    const passAdmin = 'admin1234admin';
+    const logAdmin = 'admin';
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -25,8 +26,8 @@ const ProfileData = (props) => {
     const [street, setstreet] = useState('');
     const [phoneNumber, setphoneNumber] = useState('');
 
-    for(let i=0; i < usersArrData.length; i++){
-       if(usersArrData[i].password === userProfileData.password && usersArrData[i].userName === userProfileData.userName)
+    for(let i = 0; i < users.length; i++){
+       if(users[i].password === userProfileData.password && users[i].userName === userProfileData.userName)
        {
          index = i;
        }
@@ -114,54 +115,59 @@ const ProfileData = (props) => {
 
     const updateInfo = (event) => {
         event.preventDefault(); //ביטול ניקוי הטופס באופן דיפולטיבי
-        if (checkForm()) {
+        if (checkForm()) { 
             let user = { userName, password, profileImg, surname, lastName, birthdate, email, city, street, phoneNumber } // יצירת אובייקט עם פרטי המשתמש
-            let exists = false; //בוליאן לסימון האם המייל קיים כבר במערכת
-            
-            for (let i=0; i < usersArrData.length; i++)
-            {
-                if (usersArrData[i].email === usersArrData.email)
-                exists = true;  
+            users[index] = user;//דחיפה למערך משתמשים באיחסון המקומי
+            localStorage.setItem("users", JSON.stringify(users)); //שמירה של מצב האיחסוןו המקומי
+            alert(`עדכון עבר בהצלחה!`); 
+
+            if(userProfileData.passAdmin === passAdmin && userProfileData.logAdmin === logAdmin){
+                sessionStorage.clear();
+                history.push("/admin");
             }
-        
-            if(exists === false) {
-            usersArrData.push(user);//דחיפה למערך משתמשים באיחסון המקומי
-            localStorage.setItem("users", JSON.stringify(usersArrData)); //שמירה של מצב האיחסוןו המקומי
-            alert(`נרשמת בהצלחה!`)
-            history.push("/profile")
-            }
-            else
-            {
-                alert('המייל הזה כבר קיים במערכת');
-            }
-        }
+            else if (users[index].password === userProfileData.password && users[index].userName === userProfileData.userName){
+                history.push("/profile");
+            } 
+        }  
     }
 
     return (
         <div>
-              <video className="videoTag" autoPlay loop muted>
-                 <source src={sample}/>
-              </video>
+            <video className="videoTag" autoPlay loop muted>
+                <source src={sample}/>
+            </video>
+
+            <Navbar className="navBar" variant="dark">
+                <Navbar.Brand href="#">Profile</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mr-auto">
+                    <Nav.Link href="http://localhost:3000/">Register</Nav.Link>
+                    <Nav.Link href="http://localhost:3000/login">Log In</Nav.Link>
+                </Nav>
+                </Navbar.Collapse>
+            </Navbar> 
+
             <div className="container containerProfileDate">
             <form onSubmit={updateInfo}>
                 <div className="regData">
                 <div className="firstBlock">
-                <p>Your user name: {usersArrData[index].userName} </p>
+                <p>Your user name: {users[index].userName} </p>
                 <FormField type="text" name="עדכון שם משתמש" action={setUserName}/>
-                <p>Your password: {usersArrData[index].password} </p>
+                <p>Your password: {users[index].password} </p>
                 <FormField type="password" name="עדכון סיסמה" action={setPassword} />
                 <FormField type="password" name="אימות סיסמה" action={setConfirmPassword} />
                 <FormField type="file" name="העלאת תמונה חדשה"  targetImg={profileImg} action={uploadImage}/>
-                <p>Your first name: {usersArrData[index].surname} </p>
+                <p>Your first name: {users[index].surname} </p>
                 <FormField type="text" name="עדכון שם פרטי" action={setsurname}/>
-                <p>Your last name: {usersArrData[index].lastName} </p>
+                <p>Your last name: {users[index].lastName} </p>
                 <FormField type="text" name="עדכון שם משפחה" action={setlastName}/>
                 </div>
 
                 <div className="secondBlock">
-                <p>Your email: {usersArrData[index].email} </p>
+                <p>Your email: {users[index].email} </p>
                 <FormField type="email" name="עדכון דואר אלקטרוני" action={setemail}/>
-                <p>Your birthdate: {usersArrData[index].birthdate} </p>
+                <p>Your birthdate: {users[index].birthdate} </p>
                 <div className="field">
                 <label>{"date"}</label>
                 <DatePicker //מתוך הרחבה בשם react-date-picker
@@ -172,11 +178,11 @@ const ProfileData = (props) => {
                 maxDate={new Date()} //תאריך נוכחי
                 placeholderText={"Select a date"}/>
                 </div>   
-                <p>Your city: {usersArrData[index].city} </p>           
+                <p>Your city: {users[index].city} </p>           
                 <FormField type="list" listId="listOfCities" data={cities} name="עדכון עיר" action={setCity} />
-                <p>Your street: {usersArrData[index].street} </p> 
+                <p>Your street: {users[index].street} </p> 
                 <FormField type="text" name="עדכון רחוב" action={setstreet}/>
-                <p>Your phone number: {usersArrData[index].phoneNumber} </p> 
+                <p>Your phone number: {users[index].phoneNumber} </p> 
                 <FormField type="number" name="עדכון מספר פלאפון" action={setphoneNumber}/>
                 </div>
                 </div>
